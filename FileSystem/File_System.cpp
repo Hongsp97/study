@@ -38,10 +38,10 @@ bool File_System::add(const std::string& path, bool is_dir)
 bool File_System::change_dir(const std::string& path)
 {
 	auto found = find(path);
-	if (found && found->getDir())
+	if (found && found->is_dir)
 	{
 		cwd = found;
-		std::cout << "현재 디렉토리를 " << cwd->getName() << "로 이동합니다." << std::endl;
+		std::cout << "현재 디렉토리를 " << cwd->name << "로 이동합니다." << std::endl;
 		return true;
 	}
 
@@ -58,16 +58,16 @@ void File_System::show_path(const std::string& path)
 		return;
 	}
 
-	if (found->getDir())
+	if (found->is_dir)
 	{
-		for (auto child : found->getChildren())
+		for (auto child : found->children)
 		{
-			std::cout << (child->getDir() ? "d" : "- ") << child->getName() << std::endl;
+			std::cout << (child->is_dir ? "d " : "- ") << child->name << std::endl;
 		}
 	}
 	else
 	{
-		std::cout << "- " << found->getName() << std::endl;
+		std::cout << "- " << found->name << std::endl;
 	}
 }
 
@@ -80,11 +80,11 @@ Node* File_System::find_impl(Node* directory, const std::string& path)
 	auto sep = path.find('/');
 	std::string current_path = sep == std::string::npos ? path : path.substr(0, sep);
 	std::string rest_path = sep == std::string::npos ? "" : path.substr(sep + 1);
-	auto found = std::find_if(directory->getChildren().begin(), directory->getChildren().end(), [&](const Node* child)
+	auto found = std::find_if(directory->children.begin(), directory->children.end(), [&](const Node* child)
 		{
-			return child->getName() == current_path;
+			return child->name == current_path;
 		});
-	if (found != directory->getChildren().end())
+	if (found != directory->children.end())
 	{
 		return find_impl(*found, rest_path);
 	}
@@ -94,9 +94,9 @@ Node* File_System::find_impl(Node* directory, const std::string& path)
 
 bool File_System::add_impl(Node* directory, const std::string& path, bool is_dir)
 {
-	if (!directory->getDir())
+	if (!directory->is_dir)
 	{
-		std::cout << directory->getName() << "은(는) 파일입니다." << std::endl;
+		std::cout << directory->name << "은(는) 파일입니다." << std::endl;
 		return false;
 	}
 
@@ -104,32 +104,32 @@ bool File_System::add_impl(Node* directory, const std::string& path, bool is_dir
 
 	if (sep == std::string::npos)
 	{
-		auto found = std::find_if(directory->getChildren().begin(), directory->getChildren().end(), [&](const Node* child)
+		auto found = std::find_if(directory->children.begin(), directory->children.end(), [&](const Node* child)
 			{
-				return child->getName() == path;
+				return child->name == path;
 			});
-		if (found != directory->getChildren().end())
+		if (found != directory->children.end())
 		{
-			std::cout << directory->getName() << "에 이미 " << path << " 이름의 파일/디렉토리가 있습니다." << std::endl;
+			std::cout << directory->name << "에 이미 " << path << " 이름의 파일/디렉토리가 있습니다." << std::endl;
 			return false;
 		}
 
-		directory->getChildren().push_back(new Node(path, is_dir, {}));
+		directory->children.push_back(new Node(path, is_dir, {}));
 		return true;
 	}
 	
 	std::string next_dir = path.substr(0, sep);
-	auto found = std::find_if(directory->getChildren().begin(), directory->getChildren().end(), [&](const Node* child)
+	auto found = std::find_if(directory->children.begin(), directory->children.end(), [&](const Node* child)
 		{
-			return child->getName() == next_dir && child->getDir();
+			return child->name == next_dir && child->is_dir;
 		});
 	
-	if (found != directory->getChildren().end())
+	if (found != directory->children.end())
 	{
 		return add_impl(*found, path.substr(sep + 1), is_dir);
 	}
 
-	std::cout << directory->getName() << "에 " << next_dir << "이름의 디렉토리가 없습니다." << std::endl;
+	std::cout << directory->name << "에 " << next_dir << "이름의 디렉토리가 없습니다." << std::endl;
 	return false;
 
 }
