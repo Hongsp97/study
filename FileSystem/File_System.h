@@ -12,14 +12,13 @@ public:
 	bool add(const std::string& path, bool is_dir);
 	bool change_dir(const std::string& path);
 	void show_path(const std::string& path);
-
+public:
+	Node* root;
+	Node* cwd;
 private:
 	Node* find_impl(Node* directory, const std::string& path);
 	bool add_impl(Node* directory, const std::string& path, bool is_dir);
 
-private:
-	Node* root;
-	Node* cwd;
 };
 
 #endif

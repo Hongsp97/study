@@ -6,7 +6,7 @@
 
 File_System::File_System()
 {
-	root = new Node("/", true, {});
+	root = new Node("/", true, NULL, {});
 	cwd = root;
 }
 
@@ -41,8 +41,12 @@ bool File_System::change_dir(const std::string& path)
 	if (found && found->is_dir)
 	{
 		cwd = found;
-		std::cout << "현재 디렉토리를 " << cwd->name << "로 이동합니다." << std::endl;
+		std::cout << "현재 디렉토리를 " << path << "로 이동합니다.\n";
 		return true;
+	}
+	if (found && !found->is_dir)
+	{
+		std::cout << "파일이라서 이동할 수 없습니다." << std::endl;
 	}
 
 	std::cout << path << "경로를 찾을 수 없습니다." << std::endl;
@@ -70,6 +74,7 @@ void File_System::show_path(const std::string& path)
 		std::cout << "- " << found->name << std::endl;
 	}
 }
+
 
 Node* File_System::find_impl(Node* directory, const std::string& path)
 {
@@ -114,7 +119,7 @@ bool File_System::add_impl(Node* directory, const std::string& path, bool is_dir
 			return false;
 		}
 
-		directory->children.push_back(new Node(path, is_dir, {}));
+		directory->children.push_back(new Node(path, is_dir,directory, {}));
 		return true;
 	}
 	
