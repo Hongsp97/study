@@ -1,0 +1,8 @@
+﻿  main.cpp
+C:\Users\Hongs\Documents\git\study\merge\merge\MergeSortClass.hpp(98,1): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\Hongs\Documents\git\study\merge\merge\MergeSortClass.hpp(97): message : 클래스 템플릿 멤버 함수 'std::vector<int,std::allocator<int>> MergeSortClass<int>::merge_sort(std::vector<int,std::allocator<int>>,int,int)'을(를) 컴파일하는 중입니다.
+C:\Users\Hongs\Documents\git\study\merge\merge\main.cpp(18): message : 컴파일되는 함수 템플릿 인스턴스화 'std::vector<int,std::allocator<int>> MergeSortClass<int>::merge_sort(std::vector<int,std::allocator<int>>,int,int)'에 대한 참조를 확인하세요.
+C:\Users\Hongs\Documents\git\study\merge\merge\main.cpp(17): message : 컴파일되는 클래스 템플릿 인스턴스화 'MergeSortClass<int>'에 대한 참조를 확인하세요.
+C:\Users\Hongs\Documents\git\study\merge\merge\MergeSortClass.hpp(102,1): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\Hongs\Documents\git\study\merge\merge\MergeSortClass.hpp(103,1): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  merge.vcxproj -> C:\Users\Hongs\Documents\git\study\merge\x64\Debug\merge.exe
